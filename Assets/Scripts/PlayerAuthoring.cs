@@ -18,6 +18,7 @@ public class PlayerAuthoring : MonoBehaviour {
 				TurnSpeed = authoring.turnSpeed,
 				SecondsPerShot = authoring.secondsPerShot
 			});
+			AddComponent(entity, new PlayerInput());
 			AddComponent(entity, new PlayerMoveInput());
 			AddComponent(entity, new PlayerTurnInput());
 			AddComponent(entity, new PlayerShootInput());
