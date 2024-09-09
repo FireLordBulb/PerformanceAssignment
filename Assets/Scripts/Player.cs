@@ -1,6 +1,5 @@
 using Unity.Entities;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public struct Player : IComponentData {
 	public Entity ProjectilePrefab;
@@ -27,6 +26,9 @@ public class PlayerAuthoring : MonoBehaviour {
 				TurnSpeed = authoring.turnSpeed,
 				SecondsPerShot = authoring.secondsPerShot
 			});
+			AddComponent(entity, new PlayerMoveInput());
+			AddComponent(entity, new PlayerTurnInput());
+			AddComponent(entity, new PlayerShootInput());
 		}
 	}
 }
