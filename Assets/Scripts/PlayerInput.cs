@@ -1,5 +1,3 @@
 using Unity.Entities;
 
-public struct PlayerInput : IComponentData {
-	
-}
+public struct PlayerInput : IComponentData {}
