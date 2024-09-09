@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 0}
-  moveSpeed: 5
-  reverseSpeed: 2
+  moveSpeed: 20
+  reverseSpeed: 5
   turnSpeed: 5
+  linearDrag: 0.99
   secondsPerShot: 0.25
 --- !u!1 &7587253607592629341
 GameObject:

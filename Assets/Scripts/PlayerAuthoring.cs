@@ -6,6 +6,7 @@ public class PlayerAuthoring : MonoBehaviour {
 	public float moveSpeed; 
 	public float reverseSpeed;
 	public float turnSpeed;
+	public float linearDrag;
 	public float secondsPerShot;
 
 	public class PlayerBaker : Baker<PlayerAuthoring> {
@@ -16,6 +17,7 @@ public class PlayerAuthoring : MonoBehaviour {
 				MoveSpeed = authoring.moveSpeed,
 				ReverseSpeed = authoring.reverseSpeed,
 				TurnSpeed = authoring.turnSpeed,
+				LinearDrag = authoring.linearDrag,
 				SecondsPerShot = authoring.secondsPerShot
 			});
 			AddComponent(entity, new PlayerInput());
