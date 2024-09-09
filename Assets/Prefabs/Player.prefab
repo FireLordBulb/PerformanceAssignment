@@ -48,7 +48,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   moveSpeed: 20
   reverseSpeed: 5
-  turnSpeed: 5
+  turnSpeed: 3
   linearDrag: 0.99
   secondsPerShot: 0.25
 --- !u!1 &7587253607592629341
