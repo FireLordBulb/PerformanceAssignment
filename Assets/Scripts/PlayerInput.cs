@@ -10,4 +10,6 @@ public struct PlayerTurnInput : IComponentData {
 	public float Value;
 }
 
-public struct PlayerShootInput : IComponentData, IEnableableComponent {}
+public struct PlayerShootInput : IComponentData {
+	public bool Value;
+}

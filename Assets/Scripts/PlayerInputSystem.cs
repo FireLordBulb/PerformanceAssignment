@@ -1,5 +1,4 @@
 using Unity.Entities;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public partial class PlayerInputSystem : SystemBase {
@@ -32,7 +31,7 @@ public partial class PlayerInputSystem : SystemBase {
 		SystemAPI.SetSingleton(new PlayerTurnInput{Value = 0});
 	}
 	private void OnShootPerformed(InputAction.CallbackContext _){
-		SystemAPI.SetComponentEnabled<PlayerShootInput>(player, true);
+		SystemAPI.SetSingleton(new PlayerShootInput{Value = true});
 	}
 	protected override void OnUpdate(){}
 	

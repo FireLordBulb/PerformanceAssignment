@@ -8,7 +8,6 @@ public partial class PlayerSystem : SystemBase {
 	private float3 velocity;
 	
 	protected override void OnCreate(){
-		RequireForUpdate<PlayerInput>();
 		RequireForUpdate<Player>();
 	}
 	protected override void OnUpdate(){
@@ -19,6 +18,7 @@ public partial class PlayerSystem : SystemBase {
 		}
 		FrustumPlanes cameraFrustumPlanes = mainCamera.projectionMatrix.decomposeProjection;
 		Vector3 cameraPosition = mainCamera.transform.position;
+		EntityCommandBuffer commandBuffer = new(Unity.Collections.Allocator.TempJob);
 		foreach (var (player, playerMoveInput, playerTurnInput, playerShootInput, transform) in SystemAPI.Query<Player, PlayerMoveInput, PlayerTurnInput, PlayerShootInput, RefRW<LocalTransform>>()){
 			float3 position = transform.ValueRO.Position;
 			// ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable // Not an impure method. 
@@ -41,6 +41,18 @@ public partial class PlayerSystem : SystemBase {
 			quaternion rotation = transform.ValueRO.Rotation;
 			rotation = math.mul(rotation, quaternion.AxisAngle(ScreenNormal, playerTurnInput.Value*player.TurnSpeed*SystemAPI.Time.DeltaTime));
 			transform.ValueRW.Rotation = rotation;
+			
+			if (!playerShootInput.Value){
+				continue;
+			}
+			SystemAPI.SetSingleton(new PlayerShootInput{Value = false});
+			LocalTransform projectileTransform = SystemAPI.GetComponent<LocalTransform>(player.ProjectilePrefab);
+			projectileTransform.Position = position;
+			projectileTransform.Rotation = rotation;
+			Entity newProjectile = commandBuffer.Instantiate(player.ProjectilePrefab);
+			commandBuffer.SetComponent(newProjectile, projectileTransform);
 		}
+		commandBuffer.Playback(EntityManager);
+		commandBuffer.Dispose();
 	}
 }
