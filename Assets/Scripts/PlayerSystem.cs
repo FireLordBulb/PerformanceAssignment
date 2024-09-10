@@ -24,7 +24,7 @@ public partial class PlayerSystem : SystemBase {
 			// ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable // Not an impure method. 
 			float3 direction = transform.ValueRO.Up();
 			velocity *= 1-player.LinearDrag*SystemAPI.Time.DeltaTime;
-			velocity += direction*playerMoveInput.Value*(0 < playerMoveInput.Value ? player.MoveSpeed : player.ReverseSpeed)*SystemAPI.Time.DeltaTime;
+			velocity += playerMoveInput.Value*(0 < playerMoveInput.Value ? player.MoveSpeed : player.ReverseSpeed)*SystemAPI.Time.DeltaTime*direction;
 			position += velocity*SystemAPI.Time.DeltaTime;
 			// Asteroids-style screen looping (torus topology)
 			if (position.x < cameraFrustumPlanes.left+cameraPosition.x){
@@ -51,6 +51,7 @@ public partial class PlayerSystem : SystemBase {
 			projectileTransform.Rotation = rotation;
 			Entity newProjectile = commandBuffer.Instantiate(player.ProjectilePrefab);
 			commandBuffer.SetComponent(newProjectile, projectileTransform);
+			commandBuffer.AddComponent(newProjectile, new Projectile{Speed = GlobalProjectileData.Speed});
 		}
 		commandBuffer.Playback(EntityManager);
 		commandBuffer.Dispose();
