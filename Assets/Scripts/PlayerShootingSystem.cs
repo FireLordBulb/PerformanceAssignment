@@ -4,6 +4,8 @@ using Unity.Transforms;
 using UnityEngine;
 
 public partial class PlayerShootingSystem : SystemBase {
+
+	private double lastShotTime = float.NegativeInfinity;
 	
 	protected override void OnCreate(){
 		RequireForUpdate<PlayerShooting>();
@@ -15,6 +17,10 @@ public partial class PlayerShootingSystem : SystemBase {
 				continue;
 			}
 			SystemAPI.SetSingleton(new PlayerShootInput{Value = false});
+			if (SystemAPI.Time.ElapsedTime < lastShotTime+playerShooting.SecondsPerShot){
+				continue;
+			}
+			lastShotTime = SystemAPI.Time.ElapsedTime;
 			LocalTransform projectileTransform = playerTransform;
 			projectileTransform.Scale =	SystemAPI.GetComponent<LocalTransform>(playerShooting.ProjectilePrefab).Scale;
 			Entity newProjectile = commandBuffer.Instantiate(playerShooting.ProjectilePrefab);
