@@ -12,12 +12,13 @@ public partial class PlayerSystem : SystemBase {
 		RequireForUpdate<Player>();
 	}
 	protected override void OnUpdate(){
+		Camera mainCamera = Camera.main;
 		// Don't update the player if the main camera doesn't exist.
-		if (!Camera.main){
+		if (!mainCamera){
 			return;
 		}
-		FrustumPlanes cameraFrustrumPlanes =  Camera.main.projectionMatrix.decomposeProjection;
-		Vector3 cameraPosition = Camera.main.transform.position;
+		FrustumPlanes cameraFrustumPlanes = mainCamera.projectionMatrix.decomposeProjection;
+		Vector3 cameraPosition = mainCamera.transform.position;
 		foreach (var (player, playerMoveInput, playerTurnInput, playerShootInput, transform) in SystemAPI.Query<Player, PlayerMoveInput, PlayerTurnInput, PlayerShootInput, RefRW<LocalTransform>>()){
 			float3 position = transform.ValueRO.Position;
 			// ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable // Not an impure method. 
@@ -26,14 +27,14 @@ public partial class PlayerSystem : SystemBase {
 			velocity += direction*playerMoveInput.Value*(0 < playerMoveInput.Value ? player.MoveSpeed : player.ReverseSpeed)*SystemAPI.Time.DeltaTime;
 			position += velocity*SystemAPI.Time.DeltaTime;
 			// Asteroids-style screen looping (torus topology)
-			if (position.x < cameraFrustrumPlanes.left+cameraPosition.x){
-				position.x += cameraFrustrumPlanes.right-cameraFrustrumPlanes.left;
-			} else if (cameraFrustrumPlanes.right+cameraPosition.x < position.x){
-				position.x -= cameraFrustrumPlanes.right-cameraFrustrumPlanes.left;
-			} else if (position.y < cameraFrustrumPlanes.bottom+cameraPosition.y){
-				position.y += cameraFrustrumPlanes.top-cameraFrustrumPlanes.bottom;
-			} else if (cameraFrustrumPlanes.top+cameraPosition.y < position.y){
-				position.y -= cameraFrustrumPlanes.top-cameraFrustrumPlanes.bottom;
+			if (position.x < cameraFrustumPlanes.left+cameraPosition.x){
+				position.x += cameraFrustumPlanes.right-cameraFrustumPlanes.left;
+			} else if (cameraFrustumPlanes.right+cameraPosition.x < position.x){
+				position.x -= cameraFrustumPlanes.right-cameraFrustumPlanes.left;
+			} else if (position.y < cameraFrustumPlanes.bottom+cameraPosition.y){
+				position.y += cameraFrustumPlanes.top-cameraFrustumPlanes.bottom;
+			} else if (cameraFrustumPlanes.top+cameraPosition.y < position.y){
+				position.y -= cameraFrustumPlanes.top-cameraFrustumPlanes.bottom;
 			}
 			transform.ValueRW.Position = position;
 			
