@@ -3,10 +3,9 @@ using UnityEngine.InputSystem;
 
 public partial class PlayerInputSystem : SystemBase {
 	private Input.PlayerActions playerActions;
-	private Entity player;
 	protected override void OnCreate(){
 		RequireForUpdate<PlayerInput>();
-		RequireForUpdate<Player>();
+		RequireForUpdate<PlayerMovement>();
 		playerActions = new Input().Player;
 	}
 	protected override void OnStartRunning(){
@@ -16,7 +15,6 @@ public partial class PlayerInputSystem : SystemBase {
 		playerActions.Turn.canceled += OnTurnCanceled;
 		playerActions.Shoot.performed += OnShootPerformed;
 		playerActions.Enable();
-		player = SystemAPI.GetSingletonEntity<Player>();
 	}
 	private void OnMoveStarted(InputAction.CallbackContext context){
 		SystemAPI.SetSingleton(new PlayerMoveInput{Value = context.ReadValue<float>()});
@@ -42,6 +40,5 @@ public partial class PlayerInputSystem : SystemBase {
 		playerActions.Turn.canceled -= OnTurnCanceled;
 		playerActions.Shoot.performed -= OnShootPerformed;
 		playerActions.Disable();
-		player = Entity.Null;
 	}
 }

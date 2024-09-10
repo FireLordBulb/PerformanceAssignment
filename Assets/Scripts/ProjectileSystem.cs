@@ -14,5 +14,4 @@ public partial struct ProjectileSystem : ISystem {
             transform.ValueRW.Position = position;
         }
     }
-
 }

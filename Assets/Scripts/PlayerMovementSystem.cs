@@ -3,12 +3,12 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-public partial class PlayerSystem : SystemBase {
+public partial class PlayerMovementSystem : SystemBase {
 	private static readonly float3 ScreenNormal = new(0, 0, 1);
 	private float3 velocity;
 	
 	protected override void OnCreate(){
-		RequireForUpdate<Player>();
+		RequireForUpdate<PlayerMovement>();
 	}
 	protected override void OnUpdate(){
 		Camera mainCamera = Camera.main;
@@ -18,13 +18,12 @@ public partial class PlayerSystem : SystemBase {
 		}
 		FrustumPlanes cameraFrustumPlanes = mainCamera.projectionMatrix.decomposeProjection;
 		Vector3 cameraPosition = mainCamera.transform.position;
-		EntityCommandBuffer commandBuffer = new(Unity.Collections.Allocator.TempJob);
-		foreach (var (player, playerMoveInput, playerTurnInput, playerShootInput, transform) in SystemAPI.Query<Player, PlayerMoveInput, PlayerTurnInput, PlayerShootInput, RefRW<LocalTransform>>()){
+		foreach (var (playerMovement, playerMoveInput, playerTurnInput, transform) in SystemAPI.Query<PlayerMovement, PlayerMoveInput, PlayerTurnInput, RefRW<LocalTransform>>()){
 			float3 position = transform.ValueRO.Position;
 			// ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable // Not an impure method. 
 			float3 direction = transform.ValueRO.Up();
-			velocity *= 1-player.LinearDrag*SystemAPI.Time.DeltaTime;
-			velocity += playerMoveInput.Value*(0 < playerMoveInput.Value ? player.MoveSpeed : player.ReverseSpeed)*SystemAPI.Time.DeltaTime*direction;
+			velocity *= 1-playerMovement.LinearDrag*SystemAPI.Time.DeltaTime;
+			velocity += playerMoveInput.Value*(0 < playerMoveInput.Value ? playerMovement.MoveSpeed : playerMovement.ReverseSpeed)*SystemAPI.Time.DeltaTime*direction;
 			position += velocity*SystemAPI.Time.DeltaTime;
 			// Asteroids-style screen looping (torus topology)
 			if (position.x < cameraFrustumPlanes.left+cameraPosition.x){
@@ -39,21 +38,8 @@ public partial class PlayerSystem : SystemBase {
 			transform.ValueRW.Position = position;
 			
 			quaternion rotation = transform.ValueRO.Rotation;
-			rotation = math.mul(rotation, quaternion.AxisAngle(ScreenNormal, playerTurnInput.Value*player.TurnSpeed*SystemAPI.Time.DeltaTime));
+			rotation = math.mul(rotation, quaternion.AxisAngle(ScreenNormal, playerTurnInput.Value*playerMovement.TurnSpeed*SystemAPI.Time.DeltaTime));
 			transform.ValueRW.Rotation = rotation;
-			
-			if (!playerShootInput.Value){
-				continue;
-			}
-			SystemAPI.SetSingleton(new PlayerShootInput{Value = false});
-			LocalTransform projectileTransform = SystemAPI.GetComponent<LocalTransform>(player.ProjectilePrefab);
-			projectileTransform.Position = position;
-			projectileTransform.Rotation = rotation;
-			Entity newProjectile = commandBuffer.Instantiate(player.ProjectilePrefab);
-			commandBuffer.SetComponent(newProjectile, projectileTransform);
-			commandBuffer.AddComponent(newProjectile, new Projectile{Speed = GlobalProjectileData.Speed});
 		}
-		commandBuffer.Playback(EntityManager);
-		commandBuffer.Dispose();
 	}
 }
