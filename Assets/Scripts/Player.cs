@@ -15,4 +15,6 @@ public struct PlayerShooting : IComponentData {
 	public float ProjectileLifetime;
 }
 
-
+public struct LastShotTime : IComponentData {
+	public float Value;
+}
