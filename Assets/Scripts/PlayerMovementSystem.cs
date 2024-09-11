@@ -3,7 +3,6 @@ using Unity.Mathematics;
 using Unity.Transforms;
 
 public partial class PlayerMovementSystem : SystemBase {
-	private static readonly float3 ScreenNormal = new(0, 0, 1);
 	private float3 velocity;
 	
 	protected override void OnCreate(){
@@ -17,7 +16,7 @@ public partial class PlayerMovementSystem : SystemBase {
 			physicsMovement.ValueRW.Velocity += playerMoveInput.Value*moveSpeed*SystemAPI.Time.DeltaTime*direction;
 			
 			quaternion rotation = transform.ValueRO.Rotation;
-			rotation = math.mul(rotation, quaternion.AxisAngle(ScreenNormal, playerTurnInput.Value*playerMovement.TurnSpeed*SystemAPI.Time.DeltaTime));
+			rotation = math.mul(rotation, quaternion.AxisAngle(GlobalVariables.ScreenNormal, playerTurnInput.Value*playerMovement.TurnSpeed*SystemAPI.Time.DeltaTime));
 			transform.ValueRW.Rotation = rotation;
 		}
 	}
