@@ -26,9 +26,7 @@ public class PlayerAuthoring : MonoBehaviour {
 				ProjectileSpeed = authoring.projectileSpeed,
 				ProjectileLifetime = authoring.projectileLifetime
 			});
-			AddComponent(entity, new LastShotTime{
-				Value = float.NegativeInfinity
-			});
+			AddComponent(entity, new EarliestNextShotTime());
 			AddComponent(entity, new PlayerInput());
 			AddComponent(entity, new PlayerMoveInput());
 			AddComponent(entity, new PlayerTurnInput());

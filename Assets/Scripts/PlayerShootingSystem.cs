@@ -10,15 +10,15 @@ public partial struct PlayerShootingSystem : ISystem {
 	[BurstCompile]
 	public void OnUpdate(ref SystemState state){
 		EntityCommandBuffer commandBuffer = new(Unity.Collections.Allocator.TempJob);
-		foreach (var (playerShooting, lastShotTime, playerShootInput, playerTransform) in SystemAPI.Query<PlayerShooting, RefRW<LastShotTime>, PlayerShootInput, LocalTransform>()){
+		foreach (var (playerShooting, earliestNextShotTime, playerShootInput, playerTransform) in SystemAPI.Query<PlayerShooting, RefRW<EarliestNextShotTime>, PlayerShootInput, LocalTransform>()){
 			if (!playerShootInput.Value){
 				continue;
 			}
 			SystemAPI.SetSingleton(new PlayerShootInput{Value = false});
-			if (SystemAPI.Time.ElapsedTime < lastShotTime.ValueRO.Value+playerShooting.SecondsPerShot){
+			if (SystemAPI.Time.ElapsedTime < earliestNextShotTime.ValueRO.Value){
 				continue;
 			}
-			lastShotTime.ValueRW.Value = (float)SystemAPI.Time.ElapsedTime;
+			earliestNextShotTime.ValueRW.Value = playerShooting.SecondsPerShot+(float)SystemAPI.Time.ElapsedTime;
 			LocalTransform projectileTransform = playerTransform;
 			projectileTransform.Scale =	SystemAPI.GetComponent<LocalTransform>(playerShooting.ProjectilePrefab).Scale;
 			Entity newProjectile = commandBuffer.Instantiate(playerShooting.ProjectilePrefab);
