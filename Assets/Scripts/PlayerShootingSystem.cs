@@ -1,10 +1,13 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
 
 public partial struct PlayerShootingSystem : ISystem {
+	[BurstCompile]
 	public void OnCreate(ref SystemState state){
 		state.RequireForUpdate<PlayerShooting>();
 	}
+	[BurstCompile]
 	public void OnUpdate(ref SystemState state){
 		EntityCommandBuffer commandBuffer = new(Unity.Collections.Allocator.TempJob);
 		foreach (var (playerShooting, lastShotTime, playerShootInput, playerTransform) in SystemAPI.Query<PlayerShooting, RefRW<LastShotTime>, PlayerShootInput, LocalTransform>()){
