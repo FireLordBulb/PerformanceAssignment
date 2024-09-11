@@ -135,6 +135,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5120454126681075579, guid: 9352803225a4d384aa28cc1bfef97132, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120454126681075579, guid: 9352803225a4d384aa28cc1bfef97132, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}

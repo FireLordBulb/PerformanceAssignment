@@ -50,7 +50,7 @@ MonoBehaviour:
   turnSpeed: 3
   linearDrag: 0.99
   projectilePrefab: {fileID: 2878830686923963057, guid: e7c20091c39156944b63d8a354fbf803, type: 3}
-  secondsPerShot: 0.25
+  secondsPerShot: 0.2
   projectileSpeed: 30
   projectileLifetime: 3
 --- !u!1 &7587253607592629341
@@ -127,7 +127,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0.2062567, g: 0.9716981, b: 0.79348874, a: 1}
+  m_Color: {r: 0, g: 0.9339623, b: 0.670537, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
