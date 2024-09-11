@@ -14,6 +14,7 @@ public class EnemySpawnerAuthoring : MonoBehaviour {
                 TimePerWave = authoring.timePerWave,
                 EnemiesPerWave = authoring.enemiesPerWave
             });
+            AddComponent(entity, new NextWaveTime());
         }
     }
 }
