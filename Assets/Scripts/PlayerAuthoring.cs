@@ -18,6 +18,8 @@ public class PlayerAuthoring : MonoBehaviour {
 				MoveSpeed = authoring.moveSpeed,
 				ReverseSpeed = authoring.reverseSpeed,
 				TurnSpeed = authoring.turnSpeed,
+			});
+			AddComponent(entity, new PhysicsMovement{
 				LinearDrag = authoring.linearDrag,
 			});
 			AddComponent(entity, new PlayerShooting{
