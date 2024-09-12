@@ -50,9 +50,8 @@ MonoBehaviour:
   turnSpeed: 3
   linearDrag: 0.99
   projectilePrefab: {fileID: 2878830686923963057, guid: e7c20091c39156944b63d8a354fbf803, type: 3}
-  secondsPerShot: 0.2
+  secondsPerShot: 0.1
   projectileSpeed: 30
-  projectileLifetime: 1
 --- !u!1 &7587253607592629341
 GameObject:
   m_ObjectHideFlags: 0

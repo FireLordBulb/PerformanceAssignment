@@ -10,7 +10,6 @@ public struct PlayerShooting : IComponentData {
 	public Entity ProjectilePrefab;
 	public float SecondsPerShot;
 	public float ProjectileSpeed;
-	public float ProjectileLifetime;
 }
 
 public struct EarliestNextShotTime : IComponentData {
