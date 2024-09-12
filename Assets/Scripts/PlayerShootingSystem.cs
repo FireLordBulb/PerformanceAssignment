@@ -23,9 +23,6 @@ public partial struct PlayerShootingSystem : ISystem {
 			projectileTransform.Scale =	SystemAPI.GetComponent<LocalTransform>(playerShooting.ProjectilePrefab).Scale;
 			Entity newProjectile = commandBuffer.Instantiate(playerShooting.ProjectilePrefab);
 			commandBuffer.SetComponent(newProjectile, projectileTransform);
-			commandBuffer.AddComponent(newProjectile, new Projectile{
-				Speed = playerShooting.ProjectileSpeed,
-			});
 		}
 		commandBuffer.Playback(state.EntityManager);
 		commandBuffer.Dispose();

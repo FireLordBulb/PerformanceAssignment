@@ -8,7 +8,6 @@ public class PlayerAuthoring : MonoBehaviour {
 	public float linearDrag;
 	public GameObject projectilePrefab;
 	public float secondsPerShot;
-	public float projectileSpeed;
 
 	public class PlayerBaker : Baker<PlayerAuthoring> {
 		public override void Bake(PlayerAuthoring authoring){
@@ -24,7 +23,6 @@ public class PlayerAuthoring : MonoBehaviour {
 			AddComponent(entity, new PlayerShooting{
 				ProjectilePrefab = GetEntity(authoring.projectilePrefab, TransformUsageFlags.Dynamic),
 				SecondsPerShot = authoring.secondsPerShot,
-				ProjectileSpeed = authoring.projectileSpeed,
 			});
 			AddComponent(entity, new EarliestNextShotTime());
 			AddComponent(entity, new PlayerInput());

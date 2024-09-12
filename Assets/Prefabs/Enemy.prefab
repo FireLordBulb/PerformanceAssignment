@@ -48,6 +48,7 @@ MonoBehaviour:
   moveSpeed: 10
   turnSpeed: 5
   linearDrag: 0.9
+  collisionRadius: 0.3
 --- !u!1 &4523307002289985146
 GameObject:
   m_ObjectHideFlags: 0
