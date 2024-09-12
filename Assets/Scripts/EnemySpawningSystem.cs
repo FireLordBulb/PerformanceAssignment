@@ -20,9 +20,11 @@ public partial struct EnemySpawningSystem : ISystem {
             if (SystemAPI.Time.ElapsedTime < nextWaveTime.ValueRO.Value){
                 continue;
             }
-            nextWaveTime.ValueRW.Value = spawner.TimePerWave+(float)SystemAPI.Time.ElapsedTime;
-            float spawnArcMin = Random.value*math.TAU;
+            // For the first wave the min angle is set such that the spawn arc is directly in front of the player.
+            // For all other waves, the min angle is fully random.
+            float spawnArcMin = nextWaveTime.ValueRO.Value <= 0 ? RightAngle-spawner.SpawnArcAngle/2 : Random.value*math.TAU;
             float spawnArcMax = spawnArcMin+spawner.SpawnArcAngle;
+            nextWaveTime.ValueRW.Value = spawner.TimePerWave+(float)SystemAPI.Time.ElapsedTime;
             for (int i = 0; i < spawner.EnemiesPerWave && enemyCount.ValueRO.Value < spawner.MaxEnemies; i++){
                 LocalTransform enemyTransform = playerTransform;
                 float spawnAngle = Random.Range(spawnArcMin, spawnArcMax);
