@@ -25,7 +25,6 @@ public partial struct PlayerShootingSystem : ISystem {
 			commandBuffer.SetComponent(newProjectile, projectileTransform);
 			commandBuffer.AddComponent(newProjectile, new Projectile{
 				Speed = playerShooting.ProjectileSpeed,
-				LifetimeEnd = playerShooting.ProjectileLifetime+(float)SystemAPI.Time.ElapsedTime
 			});
 		}
 		commandBuffer.Playback(state.EntityManager);
