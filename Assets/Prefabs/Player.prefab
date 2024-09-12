@@ -52,7 +52,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2878830686923963057, guid: e7c20091c39156944b63d8a354fbf803, type: 3}
   secondsPerShot: 0.2
   projectileSpeed: 30
-  projectileLifetime: 3
+  projectileLifetime: 1
 --- !u!1 &7587253607592629341
 GameObject:
   m_ObjectHideFlags: 0
