@@ -49,4 +49,4 @@ MonoBehaviour:
   spawnRadius: 5
   spawnArcAngle: 2.5
   enemiesPerWave: 6
-  maxEnemies: 100
+  maxEnemies: 1000
