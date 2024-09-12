@@ -46,4 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1136752552220816217, guid: 9fe15308c4122514bb4f340c6045913f, type: 3}
   timePerWave: 8
-  enemiesPerWave: 6
+  spawnRadius: 4
+  spawnArcAngle: 2
+  enemiesPerWave: 5
+  maxEnemies: 20
