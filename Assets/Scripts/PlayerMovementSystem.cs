@@ -1,14 +1,15 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-public partial class PlayerMovementSystem : SystemBase {
-	private float3 velocity;
-	
-	protected override void OnCreate(){
-		RequireForUpdate<PlayerMovement>();
+public partial struct PlayerMovementSystem : ISystem {
+	[BurstCompile]
+	public void OnCreate(ref SystemState state){
+		state.RequireForUpdate<PlayerMovement>();
 	}
-	protected override void OnUpdate(){
+	[BurstCompile]
+	public void OnUpdate(ref SystemState state){
 		foreach (var (playerMovement, playerMoveInput, playerTurnInput, physicsMovement, transform) in SystemAPI.Query<PlayerMovement, PlayerMoveInput, PlayerTurnInput, RefRW<PhysicsMovement>, RefRW<LocalTransform>>()){
 			// ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable // Up() just gets a value. 
 			float3 direction = transform.ValueRO.Up();
